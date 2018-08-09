@@ -92,7 +92,7 @@ $(function() {
         });
 
         it('should contains at least one feed',function(done) {
-            expect($('.feed:first-child')).not.toBe(undefined);
+            expect($('.feed').children().hasClass('entry-link')).toBe(true);
             done();
         });
     });
