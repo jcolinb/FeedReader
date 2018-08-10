@@ -109,8 +109,8 @@ $(function() {
 
             // function to control multiple async calls and store a state indicator for comparison
             function nextStep() {
-                step++; // increment at beginning since it will be called recursively
                 state[step] = $('.header-title').text(); // store header-title as marker of feed change
+                step++; // increment before condition since it will be called recursively
                 if (step<2) { // iterates twice
                     loadFeed(step,nextStep); // call recursively from callback of loadFeed
                 }
