@@ -122,7 +122,7 @@ $(function() {
         });
 
         it('should change the contents of feed container',function() {
-            expect((state[1])).not.toBe((state[2])); // compare two states to ensure different contents
+            expect((state[0])).toBe((state[1])); // compare two states to ensure different contents
         });
 
     });
