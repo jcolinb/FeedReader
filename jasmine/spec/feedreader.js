@@ -75,7 +75,7 @@ $(function() {
 
             expect($('body').hasClass('menu-hidden')).not.toBe(state);
 
-            $('.menu-icon-link').click();
+            $('.menu-icon-link').click(); // reset menu
         });
     });
     /* TODO: Write a new test suite named "Initial Entries" */
@@ -91,15 +91,39 @@ $(function() {
             loadFeed(0,done);
         });
 
-        it('should contains at least one feed',function(done) {
+        it('should contains at least one feed',function() {
             expect($('.feed').children().hasClass('entry-link')).toBe(true);
-            done();
         });
     });
     /* TODO: Write a new test suite named "New Feed Selection" */
-
+    describe('New Feed Selection',function() {
         /* TODO: Write a test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
+
+        let state={}; // object to store states for comparison
+
+        beforeEach(function(done) {
+            let step = 0;
+
+            // function to control multiple async calls and store a state indicator for comparison
+            function nextStep() {
+                step++; // increment at beginning since it will be called recursively
+                state[step] = $('.header-title').text(); // store header-title as marker of feed change
+                if (step<2) { // iterates twice
+                    loadFeed(step,nextStep); // call recursively from callback of loadFeed
+                }
+                else { // after 2 cycles, call done()
+                    done();
+                }
+            }
+            loadFeed(0,nextStep); // initialize load loop
+        });
+
+        it('should change the contents of feed container',function() {
+            expect((state[1])).not.toBe((state[2])); // compare two states to ensure different contents
+        });
+
+    });
 }());
